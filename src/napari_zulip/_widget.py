@@ -1,3 +1,4 @@
+import tempfile
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -11,8 +12,11 @@ if TYPE_CHECKING:
 
 from typing import Annotated
 
-MultiLineStr = Annotated[str, (('widget_type', 'TextEdit'), ('value', 'test text'))]
-    
+MultiLineStr = Annotated[
+    str, (("widget_type", "TextEdit"), ("value", "test text"))
+]
+
+
 @magic_factory
 def screenshot_to_zulip(
     viewer: "napari.viewer.Viewer",
@@ -29,7 +33,8 @@ def screenshot_to_zulip(
     # Globals vars
     client = zulip.Client(config_file=config_path)
 
-    local_path = f"/tmp/napari_{int(time.time())}.png"
+    tf = tempfile.NamedTemporaryFile(suffix=".png")
+    local_path = tf.name
 
     # Save screenshot into temp file
     viewer.screenshot(path=local_path, canvas_only=canvas_only)
@@ -38,7 +43,7 @@ def screenshot_to_zulip(
         upload_result = client.upload_file(fp)
 
     message_content = f"{content} [{caption}]({upload_result['uri']})"
-        
+
     message_request = {
         "type": "stream",
         "to": stream,
@@ -46,7 +51,6 @@ def screenshot_to_zulip(
         "content": message_content,
     }
 
-    # Share the file by including it in a
     client.send_message(message_request)
 
 
