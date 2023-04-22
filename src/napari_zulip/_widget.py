@@ -42,7 +42,7 @@ def screenshot_to_zulip(
     with open(local_path, "rb") as fp:
         upload_result = client.upload_file(fp)
 
-    message_content = f"{content} [{caption}]({upload_result['uri']})"
+    message_content = f"{content} ![{caption}]({upload_result['uri']})"
 
     message_request = {
         "type": "stream",
