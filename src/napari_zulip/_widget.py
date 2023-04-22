@@ -11,36 +11,42 @@ from typing import TYPE_CHECKING
 from magicgui import magic_factory
 from qtpy.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
+import tempfile
+import time
+import zulip
+
 if TYPE_CHECKING:
     import napari
 
+# Global parameters
+realm = "napari.zulipchat.com"
+config_path = f"/Users/kharrington/.zulip.d/{realm}.zuliprc"
 
-class ExampleQWidget(QWidget):
-    # your QWidget.__init__ can optionally request the napari viewer instance
-    # in one of two ways:
-    # 1. use a parameter called `napari_viewer`, as done here
-    # 2. use a type annotation of 'napari.viewer.Viewer' for any parameter
-    def __init__(self, napari_viewer):
-        super().__init__()
-        self.viewer = napari_viewer
+# randoms_stream_id = 348229
 
-        btn = QPushButton("Click me!")
-        btn.clicked.connect(self._on_click)
-
-        self.setLayout(QHBoxLayout())
-        self.layout().addWidget(btn)
-
-    def _on_click(self):
-        print("napari has", len(self.viewer.layers), "layers")
-
+# Globals vars
+client = zulip.Client(config_file=config_path)
 
 @magic_factory
-def example_magic_widget(img_layer: "napari.layers.Image"):
-    print(f"you have selected {img_layer}")
+def screenshot_to_zulip(img_layer: "napari.layers.Image", viewer: "napari.viewer.Viewer"):
+    local_path = f"/tmp/napari_{int(time.time())}.png"
+
+    # Save screenshot into temp file
+    viewer.screenshot(path=local_path)
+    
+    with open(local_path, "rb") as fp:
+        upload_result = client.upload_file(fp)
+
+    message_request = {
+        "type": "stream",
+        "to": "randoms",
+        "topic": "emacs zulip",
+        "content": "does a screenshot directly from a live napari work? [a screenshot from a live napari session]({})".format(upload_result["uri"]),
+    }
+
+    # Share the file by including it in a
+    client.send_message(
+        message_request
+    )
 
 
-# Uses the `autogenerate: true` flag in the plugin manifest
-# to indicate it should be wrapped as a magicgui to autogenerate
-# a widget.
-def example_function_widget(img_layer: "napari.layers.Image"):
-    print(f"you have selected {img_layer}")

@@ -1,7 +1,6 @@
 __version__ = "0.0.1"
-from ._widget import ExampleQWidget, example_magic_widget
+from ._widget import screenshot_to_zulip
 
 __all__ = (
-    "ExampleQWidget",
-    "example_magic_widget",
+    "screenshot_to_zulip",
 )
