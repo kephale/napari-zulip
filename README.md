@@ -7,11 +7,9 @@
 [![codecov](https://codecov.io/gh/kephale/napari-zulip/branch/main/graph/badge.svg)](https://codecov.io/gh/kephale/napari-zulip)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-zulip)](https://napari-hub.org/plugins/napari-zulip)
 
-A simple plugin for interacting with Zulip from napari
+A simple plugin for interacting with Zulip from napari.
 
-----------------------------------
-
-This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
+[An example screenshot of napari-zulip in action. It shows the plugin napari-boids and a filtered noise image, as well as a docked version of the napari-zulip plugin](resources/demo_screenshot.png)  
 
 <!--
 Don't miss the full getting started guide to set up your new package:
@@ -33,6 +31,22 @@ To install latest development version :
 
     pip install git+https://github.com/kephale/napari-zulip.git
 
+### Setting it up
+
+The plugin is going to look for a file in `<home directory>/.zulip.d/napari.zulipchat.com.zuliprc`.
+
+**If you want to use this on a different zulip then adjust the `napari.zulipchat.com` to whatever the correct domain should be.**
+
+#### How to generate a `.zuliprc` file
+
+In the Zulip app:
+- Select `Menu`
+- Select `Personal settings`
+- Select `Account & privacy`
+- Click on `Show/change your API key`
+- Enter your password
+- Click `Download .zuliprc` 
+- Save the file as `<home directory>/.zulip.d/napari.zulipchat.com.zuliprc` (or change the domain name if using a different Zulip server)
 
 ## Contributing
 
