@@ -9,7 +9,7 @@
 
 A simple plugin for interacting with Zulip from napari.
 
-[An example screenshot of napari-zulip in action. It shows the plugin napari-boids and a filtered noise image, as well as a docked version of the napari-zulip plugin](resources/demo_screenshot.png)  
+[An example screenshot of napari-zulip in action. It shows the plugin napari-boids and a filtered noise image, as well as a docked version of the napari-zulip plugin](./resources/demo_screenshot.png)  
 
 <!--
 Don't miss the full getting started guide to set up your new package:
